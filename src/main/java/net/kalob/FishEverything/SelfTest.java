@@ -68,7 +68,7 @@ final class SelfTest {
             if (plugin.effects().activeAnimations() == 0 || waited >= MAX_WAIT_TICKS) {
                 task.cancel();
                 // Give the last fireworks time to detonate.
-                Bukkit.getScheduler().runTaskLater(plugin, this::finish, 60L);
+                Bukkit.getScheduler().runTaskLater(plugin, this::finish, 100L);
             }
         }, 20L, 20L);
     }
@@ -225,7 +225,7 @@ final class SelfTest {
                 firework.remove();
             }
         }
-        if (leftover > 0) notes.add("WARNING: " + leftover + " firework(s) had not detonated (removed)");
+        expect(leftover == 0, leftover + " celebration firework(s) were left in the world");
         testItems.forEach(Item::remove);
 
         double[] tps = Bukkit.getTPS();

@@ -345,6 +345,10 @@ public final class CatchEffects {
         later(Math.max(1, fuseTicks), () -> {
             if (firework.isValid()) firework.detonate();
         });
+        // Safety net: never leave a stray rocket around (e.g. in a chunk that stopped ticking).
+        later(Math.max(1, fuseTicks) + 60L, () -> {
+            if (firework.isValid()) firework.remove();
+        });
     }
 
     private static Color rainbow(double hue) {
