@@ -1,6 +1,6 @@
 # FishEverything
 
-A Paper plugin for **Minecraft 26.3** that lets players fish up *any item in the game*. Every catch rolls a rarity tier, and the rarer the catch, the bigger the celebration.
+A Paper plugin for **Minecraft 26.3** that lets players fish up *any item in the game*. Fish are still the most common catch. On top of that, any item can come up, sorted into rarity tiers, and the rarer the catch, the bigger the celebration.
 
 ## Download
 
@@ -10,16 +10,17 @@ Drop it into your server's `plugins/` folder and restart. You need Paper 26.3 ru
 
 ## Rarity tiers
 
-| Tier | Default chance | Example items | Catch animation |
+| Outcome | Chance per cast | Example items | Catch animation |
 |---|---|---|---|
-| Common | 60% | dirt, flowers, wool, most blocks | water splash |
-| Uncommon | 25% | iron, copper, food, logs, bows | green sparkles and a two-note pling |
-| Rare | 10% | gold, emerald, ores, ender pearls, name tags | blue spiral climbing the player, chime arpeggio |
-| Epic | 4% | diamond gear, shulker boxes, spawn eggs, enchanted books | purple and pink double helix, enchanting glyphs, firework pop, title card |
-| Legendary | 0.9% | netherite, elytra, trident, beacon, music discs | harmless lightning, golden totem fountain, 3 fireworks, server broadcast |
-| Mythic | 0.1% | dragon egg, nether star, mace, heavy core, notch apple | ring of lightning, sky beam, rainbow shockwaves, fireworks finale, dragon roar, player gets lifted into the air, server broadcast |
+| **Vanilla catch** | **60%** | mostly fish (plus vanilla's usual junk and treasure) | none |
+| Common | 24% | dirt, flowers, wool, most blocks | water splash |
+| Uncommon | 10% | iron, copper, food, logs, bows | green sparkles and a two-note pling |
+| Rare | 4% | gold, emerald, ores, ender pearls, name tags | blue spiral climbing the player, chime arpeggio |
+| Epic | 1.6% | diamond gear, shulker boxes, spawn eggs, enchanted books | purple and pink double helix, enchanting glyphs, firework pop, title card |
+| Legendary | 0.36% | netherite, elytra, trident, beacon, music discs | harmless lightning, golden totem fountain, 3 fireworks, server broadcast |
+| Mythic | 0.04% | dragon egg, nether star, mace, heavy core, notch apple | ring of lightning, sky beam, rainbow shockwaves, fireworks finale, dragon roar, player gets lifted into the air, server broadcast |
 
-Inside a tier, every item is equally likely. **Luck of the Sea** boosts every tier above common (+35% weight per level by default). Enchanted books come with a random enchantment. The celebration fireworks never do damage.
+`replace-chance` (default 40) controls how many casts become a FishEverything catch. The tier weights (60 / 25 / 10 / 4 / 0.9 / 0.1) split up that 40%. Inside a tier, every item is equally likely. **Luck of the Sea** boosts every tier above common (+35% weight per level by default). Enchanted books come with a random enchantment. The celebration fireworks never do damage.
 
 ## Commands and permissions
 
@@ -39,7 +40,7 @@ Inside a tier, every item is equally likely. **Luck of the Sea** boosts every ti
 - **Tier weights**, the display name of each tier (MiniMessage), the max stack size per catch, and whether a tier is broadcast to the server.
 - **Which items go in which tier**, using item ID patterns with `*` wildcards (`"netherite_*"`, `"*_ore"`). Tiers are checked rarest first. Anything that doesn't match a pattern is Common.
 - **Exclusions.** Operator-only items (command blocks, barriers, the debug stick, and so on) and the wither and ender dragon spawn eggs are excluded by default. Clear the list if you really want *everything*.
-- `replace-chance` to keep some vanilla catches, plus `disabled-worlds`, the Luck of the Sea bonus, and the mythic levitation toggle.
+- `replace-chance` for how often a cast is a random item instead of a normal fish catch, plus `disabled-worlds`, the Luck of the Sea bonus, and the mythic levitation toggle.
 
 New items added in future Minecraft versions become fishable automatically, as Common unless a pattern matches them.
 

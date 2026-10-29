@@ -51,11 +51,17 @@ public final class FishEverythingCommand implements TabExecutor {
         Map<Rarity, Double> weights = plugin.lootTable().effectiveWeights(luck);
         double total = weights.values().stream().mapToDouble(Double::doubleValue).sum();
 
-        sender.sendMessage(Component.text("FishEverything odds"
+        double replace = plugin.replaceChance() / 100.0;
+        sender.sendMessage(Component.text("FishEverything odds per cast"
                 + (luck > 0 ? " (Luck of the Sea " + luck + ")" : "") + ":", NamedTextColor.AQUA));
+        sender.sendMessage(Component.text()
+                .append(Component.text("Vanilla catch", NamedTextColor.BLUE))
+                .append(Component.text("  " + format((1 - replace) * 100) + "%  ", NamedTextColor.WHITE))
+                .append(Component.text("(mostly fish)", NamedTextColor.GRAY))
+                .build());
         for (Rarity rarity : Rarity.values()) {
             int count = plugin.lootTable().count(rarity);
-            double chance = total <= 0 ? 0 : weights.get(rarity) / total * 100;
+            double chance = total <= 0 ? 0 : weights.get(rarity) / total * 100 * replace;
             String perItem = count == 0 ? "-" : format(chance / count);
             sender.sendMessage(Component.text()
                     .append(plugin.effects().tierName(rarity))

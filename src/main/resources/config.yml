@@ -3,8 +3,10 @@
 # ---------------------------------------------------------------------------
 #
 # How a catch works:
-#   1. A rarity tier is picked using the tier weights below.
-#   2. A random item from that tier is picked (every item in a tier is equally likely).
+#   1. replace-chance decides if this cast is a normal vanilla catch (mostly fish)
+#      or a FishEverything catch.
+#   2. For a FishEverything catch, a rarity tier is picked using the tier weights below.
+#   3. A random item from that tier is picked (every item in a tier is equally likely).
 #
 # Every item in the game is fishable. Items are put into tiers with the "items"
 # patterns below, checked from the rarest tier down (mythic first). Anything
@@ -15,8 +17,11 @@
 # Run /fe test <rarity> to preview the animation for a tier.
 
 # Percent chance (0-100) that a catch is replaced with FishEverything loot.
-# 100 = every catch is random. Lower it to keep some vanilla fish.
-replace-chance: 100
+# The rest of the time you get the normal vanilla catch, which is mostly fish
+# (vanilla also mixes in some junk and treasure). At 40, 60% of casts are vanilla,
+# so fish stay by far the most common catch.
+# 100 = every catch is a random item; 0 = plugin effectively off.
+replace-chance: 40
 
 # Each level of Luck of the Sea on the rod multiplies every NON-common tier's
 # weight by (1 + level * this). 0.35 means Luck III makes rare+ ~2x as likely.

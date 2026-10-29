@@ -128,6 +128,12 @@ class DefaultConfigTest {
     void generalSettingsAreSane() {
         double replace = config.getDouble("replace-chance");
         assertTrue(replace >= 0 && replace <= 100);
+        // Vanilla catches (mostly fish) must stay the most common outcome by default.
+        double commonShare = config.getDouble("rarities.common.weight") / Arrays.stream(Rarity.values())
+                .mapToDouble(r -> config.getDouble("rarities." + r.configKey() + ".weight")).sum();
+        assertTrue(100 - replace > replace * commonShare,
+                "vanilla catch (" + (100 - replace) + "%) should beat any single tier");
+        assertTrue(replace <= 50, "by default at least half of casts should be a vanilla (fish) catch");
         assertTrue(config.getDouble("luck-of-the-sea-bonus") >= 0);
         assertTrue(config.getInt("max-concurrent-animations") > 0);
         assertTrue(config.isList("disabled-worlds"));
