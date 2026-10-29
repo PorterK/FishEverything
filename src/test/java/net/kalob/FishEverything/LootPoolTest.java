@@ -99,7 +99,9 @@ class LootPoolTest {
             if (pool.roll(0, a).rarity().atLeast(Rarity.RARE)) rareNoLuck++;
             if (pool.roll(3, b).rarity().atLeast(Rarity.RARE)) rareLuck++;
         }
-        assertTrue(rareLuck > rareNoLuck * 1.5, "Luck III should make rare+ much more common");
+        // Weights 60/25/10/4/0.9/0.1, Luck III x2.05 on non-common: rare+ goes 15% -> ~21.7% (x1.44).
+        assertTrue(rareLuck > rareNoLuck * 1.35, "Luck III should make rare+ noticeably more common: "
+                + rareNoLuck + " -> " + rareLuck);
     }
 
     @Test
