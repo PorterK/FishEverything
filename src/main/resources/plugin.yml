@@ -1,0 +1,24 @@
+name: FishEverything
+version: '${version}'
+main: net.kalob.FishEverything.FishEverythingPlugin
+api-version: '26.3'
+description: Fish up any item in the game, with rarity tiers and fun catch animations.
+author: PorterK
+website: https://github.com/PorterK/FishEverything
+
+commands:
+  fisheverything:
+    description: FishEverything admin and info commands
+    usage: /<command> <odds|reload|test <rarity>>
+    aliases: [fe]
+
+permissions:
+  fisheverything.use:
+    description: Fishing gives FishEverything loot
+    default: true
+  fisheverything.odds:
+    description: View the drop odds with /fisheverything odds
+    default: true
+  fisheverything.admin:
+    description: Reload the config and test catch animations
+    default: op

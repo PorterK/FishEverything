@@ -1,0 +1,198 @@
+# ---------------------------------------------------------------------------
+#  FishEverything - fish up any item in the game
+# ---------------------------------------------------------------------------
+#
+# How a catch works:
+#   1. A rarity tier is picked using the tier weights below.
+#   2. A random item from that tier is picked (every item in a tier is equally likely).
+#
+# Every item in the game is fishable. Items are put into tiers with the "items"
+# patterns below, checked from the rarest tier down (mythic first). Anything
+# that doesn't match a pattern is COMMON. Patterns use item IDs and * wildcards,
+# e.g. "diamond_*", "*_ore", "netherite_sword".
+#
+# Run /fe odds in game to see the exact chance for each tier and item.
+# Run /fe test <rarity> to preview the animation for a tier.
+
+# Percent chance (0-100) that a catch is replaced with FishEverything loot.
+# 100 = every catch is random. Lower it to keep some vanilla fish.
+replace-chance: 100
+
+# Each level of Luck of the Sea on the rod multiplies every NON-common tier's
+# weight by (1 + level * this). 0.35 means Luck III makes rare+ ~2x as likely.
+luck-of-the-sea-bonus: 0.35
+
+# Enchanted books come with one random enchantment at a random level.
+random-enchanted-books: true
+
+# The mythic animation briefly lifts the player into the air (with slow falling).
+mythic-levitation: true
+
+# Safety valve for busy servers / AFK fishing farms: once this many rare+
+# animations are running at once, new ones play the small uncommon effect instead.
+max-concurrent-animations: 30
+
+# Worlds where fishing stays vanilla.
+disabled-worlds: []
+
+# Items that can never be caught. These are operator-only or game-breaking items;
+# clear this list if you truly want EVERYTHING.
+exclude:
+  - command_block
+  - chain_command_block
+  - repeating_command_block
+  - command_block_minecart
+  - structure_block
+  - structure_void
+  - jigsaw
+  - barrier
+  - light
+  - debug_stick
+  - knowledge_book
+  - test_block
+  - test_instance_block
+  - wither_spawn_egg
+  - ender_dragon_spawn_egg
+
+# MiniMessage formatting: https://docs.advntr.dev/minimessage/format.html
+# Placeholders: <tier>, <item>, <player>
+messages:
+  action-bar: "<tier> <gray>catch:</gray> <item>"
+  broadcast: "<tier> <white><player></white> <gray>just fished up</gray> <item><gray>!</gray>"
+
+rarities:
+  common:
+    weight: 60
+    display: "<gray>Common</gray>"
+    max-amount: 4          # stackable commons can come up to 4 at a time
+    animation: true
+    broadcast: false
+    items: []              # everything not matched below lands here
+
+  uncommon:
+    weight: 25
+    display: "<green>Uncommon</green>"
+    max-amount: 2
+    broadcast: false
+    items:
+      - "*iron*"
+      - "*copper*"
+      - "*redstone*"
+      - "*quartz*"
+      - "*prismarine*"
+      - "*_log"
+      - "*_wood"
+      - "cooked_*"
+      - "bread"
+      - "cake"
+      - "*_pie"
+      - "honey*"
+      - "slime*"
+      - "bow"
+      - "crossbow"
+      - "shield"
+      - "lead"
+      - "compass"
+      - "clock"
+      - "bucket"
+      - "*_boat"
+      - "*_raft"
+      - "firework*"
+      - "book"
+      - "bookshelf"
+      - "*_bundle"
+      - "bundle"
+
+  rare:
+    weight: 10
+    display: "<aqua><bold>Rare</bold></aqua>"
+    max-amount: 1
+    broadcast: false
+    items:
+      - "*gold*"
+      - "*emerald*"
+      - "*lapis*"
+      - "*amethyst*"
+      - "*_ore"
+      - "ender_pearl"
+      - "ender_eye"
+      - "blaze_rod"
+      - "breeze_rod"
+      - "wind_charge"
+      - "ghast_tear"
+      - "name_tag"
+      - "saddle"
+      - "*_horse_armor"
+      - "wolf_armor"
+      - "nautilus_shell"
+      - "*_pottery_sherd"
+      - "*_banner_pattern"
+      - "phantom_membrane"
+      - "rabbit_foot"
+      - "obsidian"
+      - "crying_obsidian"
+      - "end_crystal"
+      - "turtle_helmet"
+      - "spyglass"
+      - "*_bucket"
+      - "trial_key"
+      - "goat_horn"
+
+  epic:
+    weight: 4
+    display: "<light_purple><bold>EPIC</bold></light_purple>"
+    max-amount: 1
+    broadcast: false
+    items:
+      - "*diamond*"
+      - "emerald_block"
+      - "ancient_debris"
+      - "shulker_shell"
+      - "*shulker_box"
+      - "golden_apple"
+      - "echo_shard"
+      - "enchanted_book"
+      - "*_spawn_egg"
+      - "experience_bottle"
+      - "*_skull"
+      - "*_head"
+      - "ominous_trial_key"
+      - "ominous_bottle"
+      - "recovery_compass"
+      - "sniffer_egg"
+      - "spawner"
+      - "trial_spawner"
+      - "vault"
+
+  legendary:
+    weight: 0.9
+    display: "<gradient:#FFD700:#FF8C00><bold>LEGENDARY</bold></gradient>"
+    max-amount: 1
+    broadcast: true
+    items:
+      - "netherite_*"
+      - "elytra"
+      - "beacon"
+      - "conduit"
+      - "trident"
+      - "heart_of_the_sea"
+      - "dragon_head"
+      - "wither_skeleton_skull"
+      - "*_smithing_template"
+      - "music_disc_*"
+      - "totem_of_undying"
+      - "end_portal_frame"
+
+  mythic:
+    weight: 0.1
+    display: "<bold><rainbow>✦ MYTHIC ✦</rainbow></bold>"
+    max-amount: 1
+    broadcast: true
+    items:
+      - "dragon_egg"
+      - "enchanted_golden_apple"
+      - "nether_star"
+      - "heavy_core"
+      - "mace"
+      - "bedrock"
+      - "reinforced_deepslate"
