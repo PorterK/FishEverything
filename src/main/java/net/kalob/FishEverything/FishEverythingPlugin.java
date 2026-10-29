@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public final class FishEverythingPlugin extends JavaPlugin {
     private CatchEffects effects;
     private final Set<String> disabledWorlds = new HashSet<>();
     private double replaceChance = 100;
+    private List<Glob> keepVanilla = List.of();
 
     @Override
     public void onEnable() {
@@ -41,6 +43,7 @@ public final class FishEverythingPlugin extends JavaPlugin {
     public void reload() {
         reloadConfig();
         replaceChance = Math.max(0, Math.min(100, getConfig().getDouble("replace-chance", 100)));
+        keepVanilla = Glob.compileAll(getConfig().getStringList("keep-vanilla"));
         disabledWorlds.clear();
         for (String world : getConfig().getStringList("disabled-worlds")) {
             disabledWorlds.add(world.toLowerCase(Locale.ROOT));
@@ -69,6 +72,15 @@ public final class FishEverythingPlugin extends JavaPlugin {
 
     public CatchEffects effects() {
         return effects;
+    }
+
+    /**
+     * Whether a catch rolled by vanilla's fishing loot table should be swapped.
+     * Items on the keep-vanilla list (fish by default) are left alone.
+     */
+    public boolean shouldReplace(ItemStack vanillaCatch) {
+        if (vanillaCatch == null || vanillaCatch.getType().isAir()) return false;
+        return !Glob.anyMatch(keepVanilla, LootTable.key(vanillaCatch.getType()));
     }
 
     public double replaceChance() {

@@ -34,9 +34,11 @@ public final class FishListener implements Listener {
         Player player = event.getPlayer();
         if (!player.hasPermission("fisheverything.use")) return;
         if (plugin.isWorldDisabled(player.getWorld().getName())) return;
+        // Vanilla's loot table has already rolled this catch: fish stay fish.
+        ItemStack original = caught.getItemStack();
+        if (!plugin.shouldReplace(original)) return;
         if (ThreadLocalRandom.current().nextDouble(100) >= plugin.replaceChance()) return;
 
-        ItemStack original = caught.getItemStack();
         try {
             plugin.applyCatch(caught, EffectTarget.of(player), luckOfTheSea(player));
         } catch (Exception | LinkageError e) {

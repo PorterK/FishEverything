@@ -12,15 +12,15 @@ Drop it into your server's `plugins/` folder and restart. You need Paper 26.3 ru
 
 | Outcome | Chance per cast | Example items | Catch animation |
 |---|---|---|---|
-| **Vanilla catch** | **60%** | mostly fish (plus vanilla's usual junk and treasure) | none |
-| Common | 24% | dirt, flowers, wool, most blocks | water splash |
-| Uncommon | 10% | iron, copper, food, logs, bows | green sparkles and a two-note pling |
-| Rare | 4% | gold, emerald, ores, ender pearls, name tags | blue spiral climbing the player, chime arpeggio |
-| Epic | 1.6% | diamond gear, shulker boxes, spawn eggs, enchanted books | purple and pink double helix, enchanting glyphs, firework pop, title card |
-| Legendary | 0.36% | netherite, elytra, trident, beacon, music discs | harmless lightning, golden totem fountain, 3 fireworks, server broadcast |
-| Mythic | 0.04% | dragon egg, nether star, mace, heavy core, notch apple | ring of lightning, sky beam, rainbow shockwaves, fireworks finale, dragon roar, player gets lifted into the air, server broadcast |
+| **Fish** | **~85%** | cod, salmon, tropical fish, pufferfish (vanilla) | none |
+| Common | 9% | dirt, flowers, wool, most blocks | water splash |
+| Uncommon | 3.75% | iron, copper, food, logs, bows | green sparkles and a two-note pling |
+| Rare | 1.5% | gold, emerald, ores, ender pearls, name tags | blue spiral climbing the player, chime arpeggio |
+| Epic | 0.6% | diamond gear, shulker boxes, spawn eggs, enchanted books | purple and pink double helix, enchanting glyphs, firework pop, title card |
+| Legendary | 0.135% | netherite, elytra, trident, beacon, music discs | harmless lightning, golden totem fountain, 3 fireworks, server broadcast |
+| Mythic | 0.015% | dragon egg, nether star, mace, heavy core, notch apple | ring of lightning, sky beam, rainbow shockwaves, fireworks finale, dragon roar, player gets lifted into the air, server broadcast |
 
-`replace-chance` (default 40) controls how many casts become a FishEverything catch. The tier weights (60 / 25 / 10 / 4 / 0.9 / 0.1) split up that 40%. Inside a tier, every item is equally likely. **Luck of the Sea** boosts every tier above common (+35% weight per level by default). Enchanted books come with a random enchantment. The celebration fireworks never do damage.
+Vanilla's fishing loot table still rolls every catch. Fish stay fish. When vanilla would give you junk or treasure (~15% of casts), you get a FishEverything item instead, and the tier weights (60 / 25 / 10 / 4 / 0.9 / 0.1) decide its rarity. Inside a tier, every item is equally likely. **Luck of the Sea** boosts every tier above common (+35% weight per level by default). Enchanted books come with a random enchantment. The celebration fireworks never do damage.
 
 ## Commands and permissions
 
@@ -40,7 +40,7 @@ Drop it into your server's `plugins/` folder and restart. You need Paper 26.3 ru
 - **Tier weights**, the display name of each tier (MiniMessage), the max stack size per catch, and whether a tier is broadcast to the server.
 - **Which items go in which tier**, using item ID patterns with `*` wildcards (`"netherite_*"`, `"*_ore"`). Tiers are checked rarest first. Anything that doesn't match a pattern is Common.
 - **Exclusions.** Operator-only items (command blocks, barriers, the debug stick, and so on) and the wither and ender dragon spawn eggs are excluded by default. Clear the list if you really want *everything*.
-- `replace-chance` for how often a cast is a random item instead of a normal fish catch, plus `disabled-worlds`, the Luck of the Sea bonus, and the mythic levitation toggle.
+- `keep-vanilla` (which vanilla catches are never swapped; fish by default) and `replace-chance` (how often junk/treasure gets swapped), plus `disabled-worlds`, the Luck of the Sea bonus, and the mythic levitation toggle.
 
 New items added in future Minecraft versions become fishable automatically, as Common unless a pattern matches them.
 

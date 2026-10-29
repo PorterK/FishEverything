@@ -125,15 +125,24 @@ class DefaultConfigTest {
     }
 
     @Test
+    void fishAreKeptFromTheVanillaLootTable() {
+        List<Glob> keep = Glob.compileAll(config.getStringList("keep-vanilla"));
+        for (String fish : List.of("cod", "salmon", "tropical_fish", "pufferfish")) {
+            assertTrue(Glob.anyMatch(keep, fish), fish + " should stay a vanilla catch");
+        }
+        for (String junkOrTreasure : List.of("stick", "leather_boots", "bowl", "name_tag", "enchanted_book", "bow")) {
+            assertFalse(Glob.anyMatch(keep, junkOrTreasure), junkOrTreasure + " should be swapped");
+        }
+        for (Glob glob : keep) {
+            assertTrue(itemKeys.stream().anyMatch(glob::matches), "keep-vanilla entry matches no item: " + glob.source());
+        }
+    }
+
+    @Test
     void generalSettingsAreSane() {
         double replace = config.getDouble("replace-chance");
         assertTrue(replace >= 0 && replace <= 100);
-        // Vanilla catches (mostly fish) must stay the most common outcome by default.
-        double commonShare = config.getDouble("rarities.common.weight") / Arrays.stream(Rarity.values())
-                .mapToDouble(r -> config.getDouble("rarities." + r.configKey() + ".weight")).sum();
-        assertTrue(100 - replace > replace * commonShare,
-                "vanilla catch (" + (100 - replace) + "%) should beat any single tier");
-        assertTrue(replace <= 50, "by default at least half of casts should be a vanilla (fish) catch");
+
         assertTrue(config.getDouble("luck-of-the-sea-bonus") >= 0);
         assertTrue(config.getInt("max-concurrent-animations") > 0);
         assertTrue(config.isList("disabled-worlds"));

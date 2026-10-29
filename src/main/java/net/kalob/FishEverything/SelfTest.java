@@ -59,6 +59,7 @@ final class SelfTest {
         step("config reload", this::checkReload);
         step("every item can be created", this::checkEveryItem);
         step("enchanted books", this::checkEnchantedBooks);
+        step("fish stay fish", this::checkKeepVanilla);
         step("roll distribution", this::checkRollDistribution);
         step("commands", this::checkCommands);
         step("every animation", this::playEveryAnimation);
@@ -124,6 +125,17 @@ final class SelfTest {
                 return;
             }
         }
+    }
+
+    private void checkKeepVanilla() {
+        for (Material fish : new Material[]{Material.COD, Material.SALMON, Material.TROPICAL_FISH, Material.PUFFERFISH}) {
+            expect(!plugin.shouldReplace(new ItemStack(fish)), fish + " should be kept as a vanilla catch");
+        }
+        for (Material other : new Material[]{Material.STICK, Material.LEATHER_BOOTS, Material.NAME_TAG,
+                Material.ENCHANTED_BOOK, Material.BOW, Material.LILY_PAD}) {
+            expect(plugin.shouldReplace(new ItemStack(other)), other + " should be swapped");
+        }
+        expect(!plugin.shouldReplace(null), "null catch must not be swapped");
     }
 
     private void checkRollDistribution() {
